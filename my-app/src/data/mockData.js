@@ -33,7 +33,7 @@ export const AREAS = [
     { name: 'Malad', city: 'Mumbai', lat: 19.1871, lng: 72.8480, x: 125, y: 155 },
     { name: 'Worli', city: 'Mumbai', lat: 18.9986, lng: 72.8151, x: 145, y: 230 },
     { name: 'Juhu', city: 'Mumbai', lat: 19.1030, lng: 72.8264, x: 110, y: 175 },
-    { name: 'Vikhroli', city: 'Mumbai', lat: 19.1074, lng: 72.9239, x: 250, y: 178 },
+    { name: 'Vikhroli', city: 'Mumbai', lat: 19.1074, lng: 72.9239, x: 250, y:178},
 ];
 
 export const MOCK_COMPLAINTS = [
