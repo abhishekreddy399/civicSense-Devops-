@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t civicsense-app .'
+                bat 'docker build -t civicsense-app .'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh 'docker run -d -p 3000:3000 civicsense-app'
+                bat 'docker run -d -p 3000:3000 civicsense-app'
             }
         }
     }
