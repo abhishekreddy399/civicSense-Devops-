@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t civicsense-app .'
+                bat 'docker build -t civicsense-app ./backend'
             }
         }
 
