@@ -2,31 +2,47 @@ pipeline {
     agent any
 
     environment {
+        // These should be set in Jenkins Credentials (Manage Jenkins > Credentials)
         MONGO_URI = credentials('mongo-uri')
+        JWT_SECRET = credentials('jwt-secret')
     }
 
     stages {
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                bat 'docker build -t civicsense-app ./backend'
+                checkout scm
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Build & Prepare') {
             steps {
-                bat 'docker stop civicsense || exit 0'
-                bat 'docker rm civicsense || exit 0'
+                echo 'Building Docker Images...'
+                bat 'docker-compose build'
             }
         }
 
-       stage('Run Container') {
-    steps {
-        bat '''
-        docker run -d -p 5000:5000 ^
-        -e MONGO_URI="%MONGO_URI%" ^
-        --name civicsense civicsense-app
-        '''
+        stage('Deploy') {
+            steps {
+                echo 'Deploying containers...'
+                // -d starts in detached mode, --remove-orphans cleans up old containers
+                bat 'docker-compose up -d --remove-orphans'
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                echo 'Verifying deployment...'
+                bat 'curl -f http://localhost:5000/api/health || exit 1'
+            }
+        }
     }
-}
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        failure {
+            echo 'Deployment failed. Check Docker logs.'
+        }
     }
 }
