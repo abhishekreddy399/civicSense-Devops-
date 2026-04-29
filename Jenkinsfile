@@ -62,8 +62,8 @@ NODE_ENV=production
                             export JWT_SECRET="${JWT_SECRET}"
                             export REACT_APP_API_URL="http://${EC2_IP}:5000"
                             export CLIENT_URL="http://${EC2_IP}"
-                            docker-compose down
-                            docker-compose up -d --build
+                            docker compose down || docker-compose down
+                            docker compose up -d --build || docker-compose up -d --build
                         '
                     """
 
