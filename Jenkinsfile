@@ -17,8 +17,8 @@ pipeline {
     }
 
     triggers {
-        // Poll SCM or wait for GitHub Webhook
-        githubPush()
+        // Poll GitHub every 5 minutes for changes (Perfect for Local Jenkins)
+        pollSCM('H/5 * * * *')
     }
 
     stages {
