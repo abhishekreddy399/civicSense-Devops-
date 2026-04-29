@@ -8,7 +8,7 @@ pipeline {
         
         // EC2 Configuration
         EC2_USER = "ubuntu" // or 'ec2-user' if using Amazon Linux
-        EC2_IP = "YOUR_EC2_PUBLIC_IP" 
+        EC2_IP = "23.20.201.208"
         SSH_CRED_ID = "ec2-ssh-key"
         
         // App Configuration
