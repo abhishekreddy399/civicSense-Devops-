@@ -8,7 +8,7 @@ pipeline {
         
         // EC2 Configuration
         EC2_USER = "ubuntu" // or 'ec2-user' if using Amazon Linux
-        EC2_IP = "23.20.201.208" 
+        EC2_IP = "YOUR_EC2_PUBLIC_IP" 
         SSH_CRED_ID = "ec2-ssh-key"
         
         // App Configuration
@@ -50,7 +50,9 @@ NODE_ENV=production
                     sh "ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} 'mkdir -p ${DEPLOY_PATH}'"
                     
                     // 2. Sync files to EC2 (Excluding node_modules)
-                    sh "rsync -avz --exclude 'node_modules' --exclude '.git' ./ ${EC2_USER}@${EC2_IP}:${DEPLOY_PATH}/"
+                    sh """
+                        tar --exclude='node_modules' --exclude='.git' -czf - . | ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} "cd ${DEPLOY_PATH} && tar -xzf -"
+                    """
                     
                     // 3. Start containers on EC2
                     sh """
